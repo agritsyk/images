@@ -1,4 +1,5 @@
 <?php
+
 namespace frontend\models;
 
 use Yii;
@@ -19,6 +20,10 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $about
+ * @property integer $type
+ * @property string $nickname
+ * @property string $picture
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -113,7 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
             return false;
         }
 
-        $timestamp = (int) substr($token, strrpos($token, '_') + 1);
+        $timestamp = (int)substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
@@ -185,5 +190,119 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * @return int|mixed|string
+     */
+    public function getNickname()
+    {
+        return ($this->nickname) ? $this->nickname : $this->getId();
+    }
+
+    /**
+     * @param User $user
+     */
+    public function followUser(User $user)
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        $redis->sadd("user:{$this->getId()}:subscriptions", $user->getId());
+        $redis->sadd("user:{$user->getId()}:followers", $this->getId());
+    }
+
+    public function unfollowUser(User $user)
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        $redis->srem("user:{$this->getId()}:subscriptions", $user->getId());
+        $redis->srem("user:{$user->getId()}:followers", $this->getId());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubscriptions()
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        $key = "user:{$this->getId()}:subscriptions";
+        $ids = $redis->smembers($key);
+
+        return User::find()->select('id, username, nickname')->where(['id' => $ids])->orderBy('username')->asArray()->all();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFollowers()
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        $key = "user:{$this->getId()}:followers";
+        $ids = $redis->smembers($key);
+
+        return User::find()->select('id, username, nickname')->where(['id' => $ids])->orderBy('username')->asArray()->all();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function countSubscriptions()
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        return $redis->scard("user:{$this->getId()}:subscriptions");
+    }
+
+    /**
+     * @return mixed
+     */
+    public function countFollowers()
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        return $redis->scard("user:{$this->getId()}:followers");
+    }
+
+    /**
+     * @param User $user
+     * @return array|ActiveRecord[]
+     */
+    public function getMutualSubscriptionsTo(User $user)
+    {
+        //current user subscriptions
+        $key1 = "user:{$this->getId()}:subscriptions";
+
+        //given user subscriptions
+        $key2 = "user:{$user->getId()}:followers";
+
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+
+        $ids = $redis->sinter($key1, $key2);
+
+        return User::find()->select('id, username, nickname')->where(['id' => $ids])->orderBy('username')->asArray()->all();
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function isSubscribed(User $user)
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+
+        $key = "user:{$user->getId()}:followers";
+
+        return $redis->sismember($key, $this->getId());
+    }
+
+    public function getPicture()
+    {
+        if ($this->picture) {
+            return Yii::$app->storage->getFile($this->picture);
+        }
     }
 }
