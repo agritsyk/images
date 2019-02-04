@@ -42,6 +42,8 @@ use dosamigos\fileupload\FileUpload;
             ],
         ]); ?>
 
+        <a href="<?php echo Url::to(['/user/profile/delete-picture']); ?>" class="btn btn-danger">Delete picture</a>
+
     <?php endif; ?>
 
 
