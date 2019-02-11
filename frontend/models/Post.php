@@ -6,6 +6,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use frontend\components\Storage;
 use yii\redis\Connection;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "post".
@@ -40,6 +41,9 @@ class Post extends ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -61,12 +65,21 @@ class Post extends ActiveRecord
     }
 
     /**
-     * @return \yii\db\ActiveQuery
+     * @return array|null|ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::class, ['id' => 'user_id']);
+        return $this->hasOne(User::class, ['id' => 'user_id'])->one();
     }
+
+    /**
+     * @return array|ActiveRecord[]
+     */
+    public function getComments()
+    {
+        return $this->hasMany(Comment::class, ['post_id' => 'id'])->all();
+    }
+
 
     /**
      * @param User $user
@@ -100,6 +113,7 @@ class Post extends ActiveRecord
         return $redis->scard("post:{$this->getId()}:likes");
     }
 
+
     /**
      * @return int
      */
@@ -108,10 +122,22 @@ class Post extends ActiveRecord
         return $this->id;
     }
 
+    /**
+     * @param User $user
+     * @return mixed
+     */
     public function isLikedBy(User $user)
     {
         /* @var $redis Connection*/
         $redis = Yii::$app->redis;
         return $redis->sismember("post:{$this->getId()}:likes", $user->getId());
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getCommentsCount()
+    {
+        return Comment::find()->where(['post_id' => $this->getId()])->count();
     }
 }

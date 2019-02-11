@@ -50,6 +50,8 @@ return [
             'rules' => [
                 'profile/<nickname:\w+>' => 'user/profile/view',
                 'post/<id:\d+>' => 'post/default/view',
+               // 'post/<postId:\d+>/update-comment/<id:\d+>' => 'post/default/update-comment',
+
             ],
         ],
         'storage' => [
