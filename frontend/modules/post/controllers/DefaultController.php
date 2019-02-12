@@ -2,7 +2,6 @@
 
 namespace frontend\modules\post\controllers;
 
-use frontend\models\Comment;
 use frontend\models\User;
 use frontend\modules\post\models\forms\CommentForm;
 use Yii;
@@ -51,7 +50,7 @@ class DefaultController extends Controller
     {
         /* @var $post Post */
 
-        $post = $this->findPost($id);
+        $post = Post::getPostById($id);
 
         /* @var $currentUser User */
         if (!$currentUser = Yii::$app->user->identity) {
@@ -75,6 +74,10 @@ class DefaultController extends Controller
         ]);
     }
 
+    /**
+     * @return array|Response
+     * @throws NotFoundHttpException
+     */
     public function actionUnlike()
     {
         if (Yii::$app->user->isGuest) {
@@ -83,8 +86,8 @@ class DefaultController extends Controller
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $post_id = Yii::$app->request->post('id');
-        $post = $this->findPost($post_id);
+        $postId = Yii::$app->request->post('id');
+        $post = Post::getPostById($postId);
 
         /* @var $currentUser User */
         $currentUser = Yii::$app->user->identity;
@@ -110,8 +113,8 @@ class DefaultController extends Controller
 
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        $post_id = Yii::$app->request->post('id');
-        $post = $this->findPost($post_id);
+        $postId = Yii::$app->request->post('id');
+        $post = Post::getPostById($postId);
 
         /* @var $currentUser User */
         $currentUser = Yii::$app->user->identity;
@@ -125,90 +128,6 @@ class DefaultController extends Controller
         ];
     }
 
-    /**
-     * @param $id
-     * @return Post|null
-     * @throws NotFoundHttpException
-     */
-    private function findPost($id)
-    {
-        if ($post = Post::findOne($id)) {
-            return $post;
-        }
-
-        throw new NotFoundHttpException();
-    }
-
-    /**
-     * @param $postId
-     * @param $commentId
-     * @return string|Response
-     * @throws NotFoundHttpException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public function actionUpdateComment($postId, $commentId)
-    {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('/user/default/login');
-        }
-        /* @var $currentUser User */
-        $currentUser = Yii::$app->user->identity;
-
-        /* @var $post Post */
-        $post = $this->findPost($postId);
-
-        /* @var $commentForm \frontend\modules\post\models\forms\CommentForm */
-        $commentForm = new CommentForm($currentUser, $post);
-
-        if ($commentForm->load(Yii::$app->request->post()) && $commentForm->update($postId, $commentId)) {
-            Yii::$app->session->setFlash('success', 'Comment updated');
-            return $this->goBack();
-        }
-
-        $commentText = Comment::getCommentText($commentId);
-
-        return $this->render('update-comment', [
-            'commentForm' => $commentForm,
-            'commentText' => $commentText,
-        ]);
-    }
-
-    /**
-     * @param $commentId
-     * @return Response
-     * @throws NotFoundHttpException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
-     */
-    public function actionDeleteComment($commentId)
-    {
-        if (Yii::$app->user->isGuest) {
-            return $this->redirect('/user/default/login');
-        }
-
-        if ($this->findComment($commentId)->delete()) {
-            Yii::$app->session->setFlash('success', 'Comment successfully deleted!');
-        } else {
-            Yii::$app->session->setFlash('error', 'Comment is not deleted!');
-        }
-
-        return $this->goBack();
-    }
-
-    /**
-     * @param $id
-     * @return Comment|null
-     * @throws NotFoundHttpException
-     */
-    private function findComment($id)
-    {
-        if (($comment = Comment::findOne(($id))) !== null) {
-            return $comment;
-        }
-
-        throw new NotFoundHttpException('The requested comment does not exist!');
-    }
 
 
 }

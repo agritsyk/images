@@ -51,14 +51,14 @@ use yii\web\JqueryAsset;
                 <h1><?php echo 'There is ' . $count . ' comment(s)'; ?></h1>
             <?php endif; ?>
             <?php if (isset($currentUser)): ?>
-                <?= $this->render('comments', [
+                <?= $this->render('/comment/comments', [
                     'comments' => $post->getComments(),
                     'commentForm' => $commentForm,
                     'currentUser' => $currentUser,
                     'post' => $post,
                 ]); ?>
             <?php else: ?>
-                <?= $this->render('comments', [
+                <?= $this->render('/comment/comments', [
                     'comments' => $post->getComments(),
                     'post' => $post,
                 ]); ?>

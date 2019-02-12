@@ -15,13 +15,13 @@ use yii\helpers\Html;
     <p><b><?php echo $comment->user->username; ?>: </b><?php echo $comment->text; ?>
         <?php if (isset($currentUser)): ?>
             <?php if ($currentUser->id == $comment->user_id): ?>
-                <?= Html::a('Update', ['/post/default/update-comment', 'postId' => $comment->post->id, 'commentId' => $comment->id],
+                <?= Html::a('Update', ['/post/comment/update-comment', 'postId' => $comment->post->id, 'commentId' => $comment->id],
                     [
                         'class' => 'btn btn-success',
                     ]); ?>
             <?php endif; ?>
             <?php if ($currentUser->id == $post->user_id): ?>
-                <?= Html::a('Delete', ['/post/default/delete-comment', 'postId' => $comment->post->id, 'commentId' => $comment->id], [
+                <?= Html::a('Delete', ['/post/comment/delete-comment', 'postId' => $comment->post->id, 'commentId' => $comment->id], [
                     'class' => 'btn btn-danger',
                     'data' => [
                         'confirm' => 'Are you sure you want to delete this item?',
@@ -33,6 +33,7 @@ use yii\helpers\Html;
     </p>
     <hr>
 <?php endforeach; ?>
+
 <?php if (isset($currentUser)): ?>
     <?= $this->render('_form', [
         'commentForm' => $commentForm,

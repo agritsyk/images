@@ -2,8 +2,8 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\db\ActiveRecord;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "comment".
@@ -78,6 +78,20 @@ class Comment extends ActiveRecord
     {
         $comment = Comment::find()->select('text')->where(['id' => $id])->one();
         return $comment->text;
+    }
+
+    /**
+     * @param $commentId
+     * @return Comment|null
+     * @throws NotFoundHttpException
+     */
+    public static function getCommentById($commentId)
+    {
+        if (($comment = Comment::findOne(($commentId))) !== null) {
+            return $comment;
+        }
+
+        throw new NotFoundHttpException('The requested comment does not exist!');
     }
 
 

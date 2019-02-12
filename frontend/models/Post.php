@@ -4,9 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
-use frontend\components\Storage;
 use yii\redis\Connection;
-use yii\helpers\ArrayHelper;
+use yii\web\NotFoundHttpException;
 
 /**
  * This is the model class for table "post".
@@ -139,5 +138,19 @@ class Post extends ActiveRecord
     public function getCommentsCount()
     {
         return Comment::find()->where(['post_id' => $this->getId()])->count();
+    }
+
+    /**
+     * @param $postId
+     * @return Post|null
+     * @throws NotFoundHttpException
+     */
+    public static function getPostById($postId)
+    {
+        if ($post = Post::findOne($postId)) {
+            return $post;
+        }
+
+        throw new NotFoundHttpException();
     }
 }
