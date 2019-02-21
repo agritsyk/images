@@ -5,6 +5,7 @@
 
 /* @var $modelPicture frontend\modules\user\models\forms\PictureForm */
 
+
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Url;
@@ -66,7 +67,7 @@ use dosamigos\fileupload\FileUpload;
         <div class="row">
             <?php foreach ($mutualSubscriptions as $item): ?>
                 <div class="col-md-12">
-                    <a href="<?php Url::to(['/user/profile/view', 'nickname' => ($item['nickname']) ? $item['nickname'] : $item['id']]); ?>">
+                    <a href="<?php echo Url::to(['/user/profile/view', 'nickname' => ($item['nickname'] ? $item['nickname'] : $item['id'])]); ?>">
                         <?php echo Html::encode($item['username']); ?>
                     </a>
                 </div>
@@ -86,6 +87,17 @@ use dosamigos\fileupload\FileUpload;
     Followers: <?php echo Html::encode($user->countFollowers()); ?>
 </button>
 
+<hr>
+
+<?php if ($userPostList): ?>
+    <h5>My posts:</h5>
+    <?php foreach ($userPostList as $postItem): ?>
+        <a href="<?php echo Url::to(['/post/default/view', 'id' => $postItem->id]); ?>">
+            <img src="<?php echo Yii::$app->params['storageUri'] . $postItem->filename; ?>" width="300" height="250"/>
+        </a>
+
+    <?php endforeach; ?>
+<?php endif; ?>
 <!-- Modal1 -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">

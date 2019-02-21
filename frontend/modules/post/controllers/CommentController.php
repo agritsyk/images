@@ -60,13 +60,16 @@ class CommentController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionDeleteComment($commentId)
+    public function actionDeleteComment($postId, $commentId)
     {
         if (Yii::$app->user->isGuest) {
             return $this->redirect('/user/default/login');
         }
 
-        if (Comment::getCommentById($commentId)->delete()) {
+        /* @var $post Post */
+        $post = Post::getPostById($postId);
+
+        if (Comment::getCommentById($commentId)->delete() && $post->deleteComment()) {
             Yii::$app->session->setFlash('success', 'Comment successfully deleted!');
         } else {
             Yii::$app->session->setFlash('error', 'Comment is not deleted!');

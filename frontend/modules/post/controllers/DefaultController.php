@@ -33,7 +33,7 @@ class DefaultController extends Controller
 
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'Post created');
-                return $this->goHome();
+                return $this->goBack();
             }
         }
         return $this->render('create', [

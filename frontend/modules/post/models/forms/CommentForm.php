@@ -51,6 +51,7 @@ class CommentForm extends Model
             $comment->text = $this->text;
             $comment->user_id = $this->user->getId();
             $comment->post_id = $this->post->getId();
+            $this->post->addNewComment();
             return $comment->save(false);
         }
     }

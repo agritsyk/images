@@ -1,0 +1,512 @@
+@charset "utf-8";
+html {
+    margin: 0;
+    padding: 0;
+    height: 100% !important;
+    min-height: 100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+    font-family: 'Arial', serif;
+    color: #111 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arial', serif;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+header, section, article, aside, canvas {
+    position: relative;
+}
+
+header .header-top {
+    position: relative;
+    padding: 5px 0;
+}
+
+header .header-top .navicons-topbar ul {
+    float: right;
+}
+
+header .header-top ul {
+    display: inline-block;
+    margin: 40px 0 0;
+    padding: 0;
+    vertical-align: middle;
+}
+
+header .header-top ul li {
+    display: inline-block;
+    padding: 0 7px;
+}
+
+header .header-top ul li a {
+    display: inline-block;
+    font-size: 18px;
+}
+
+header .header-top ul li a.search-toggle {
+    position: relative;
+    z-index: 1;
+}
+
+header .header-top ul li.blog-search .dropdown {
+    width: auto;
+    cursor: pointer;
+}
+
+header .header-top .brand-logo {
+    display: inline-block;
+    text-align: center;
+}
+
+header .header-top .brand-logo h1 {
+    display: inline-block;
+    margin: 0;
+}
+
+header .header-top .brand-logo h1 a, header .header-top .brand-logo h1 a img {
+    display: inline-block;
+}
+
+header .header-top .brand-logo h1 a, header .header-top .brand-logo h1 a img:hover {
+    transform: none;
+}
+
+header .header-top .brand-logo h1 span {
+    display: inline-block;
+    float: left;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    color: #aeaeae;
+    width: 100%;
+    margin: 5px 0 0 0;
+}
+
+.header-main-nav {
+    position: relative;
+    border-bottom: 1px solid;
+    height: 60px;
+    margin-bottom: 30px;
+}
+
+.header-main-nav .main-nav-wrapper {
+    position: relative;
+    border-top: 1px solid;
+    text-align: center;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu {
+    display: inline-block;
+    text-align: center;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    margin-top: -1px;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu ul li {
+    display: inline-block;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu ul li.active {
+    background-color: #eee;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu ul li a {
+    position: relative;
+    display: inline-block;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    padding: 20px 22px;
+    cursor: pointer;
+}
+
+.blog-main {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.blog-posts {
+    position: relative;
+    margin: 50px 0;
+    padding-left: 0;
+}
+
+.page-posts {
+    position: relative;
+    margin: 50px 0;
+    padding-left: 0;
+}
+
+.page-posts.no-padding {
+    margin: 0;
+}
+
+.blog-posts {
+    padding-left: inherit;
+}
+
+.blog-posts .post .post-title {
+    padding: 0;
+    margin: 0 0 10px;
+}
+
+.post {
+    margin: 0 0 50px 0;
+}
+
+.blog-posts .post .author-name {
+    display: inline-block;
+    font-weight: normal;
+    margin: 10px 0;
+    font-size: 21px;
+    line-height: 48px;
+}
+
+.blog-posts .post .author-image {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    border-radius: 25px;
+    margin: -5px 10px 0 0;
+}
+
+.blog-posts .post .post-bottom {
+    position: relative;
+    border-bottom: 1px solid #ececec;
+}
+
+.blog-posts .post .post-likes, .blog-posts .post .post-bottom .post-likes a, .post .post-description, .post-report {
+    display: inline;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.blog-posts .post .post-bottom .post-likes a.display-none {
+    display: none;
+}
+
+.blog-posts .post .post-bottom .post-comments, .post-report {
+    position: relative;
+    display: inline-block;
+    border-left: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    padding: 0px 15px 10px;
+    margin: 0 10px;
+}
+
+.blog-posts .post .post-bottom .post-date {
+    position: relative;
+    font-family: 'Ubuntu', sans-serif;
+    display: inline-block;
+    font-size: 13px;
+}
+
+.post-report {
+    position: relative;
+    font-family: 'Ubuntu', sans-serif;
+    display: inline-block;
+    font-size: 13px;
+    border-left: 1px solid #ececec;
+    border-right: 0;
+}
+
+.blog-posts .post .post-bottom .post-author a {
+    display: inline-block;
+    margin: 0 0 0 3px;
+    text-decoration: none;
+}
+
+body.page .page-post .post-description p {
+    padding: 15px 0 15px 0;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+footer .footer {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    background-color: #202020;
+    text-align: center;
+    height: 80px;
+}
+
+footer .footer .back-to-top-page {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -32px;
+}
+
+footer .footer .back-to-top-page a {
+    display: inline-block;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    color: #aeaeae;
+    line-height: 34px;
+    background-color: #202020;
+    -webkit-border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+footer .footer p.text {
+    display: inline-block;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 13px;
+    color: #606060;
+    margin: 0;
+    padding: 30px 0;
+}
+
+.sidebar-navigation-menu, header .header-top ul li a {
+    color: #aeaeae;
+}
+
+.header-main-nav {
+    border-color: #ececec;
+}
+
+.header-main-nav .main-nav-wrapper {
+    border-color: #ececec;
+}
+
+.header-main-nav .main-nav-wrapper .main-menu ul li > a {
+    color: #000;
+}
+
+.post .post-bottom .post-comments a {
+    color: #aeaeae;
+}
+
+.post .author-name a {
+    color: #888;
+}
+
+.main .blog-posts .comments-post {
+    display: inline-block;
+    width: 100%;
+    border: 1px solid #ececec;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    padding: 0 15px;
+    margin: 0 0 30px;
+}
+
+.comment {
+    padding-top: 20px;
+}
+
+.comments-post ul.comment-list {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.comments-post ul.comment-list li {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    padding: 30px 0;
+}
+
+.comments-post ul.comment-list ul li {
+    padding: 30px 25px;
+}
+
+.comments-post ul.comment-list li ~ li {
+    border-top: 1px solid #ececec;
+}
+
+.comments-post ul.comment-list li .comment-user-image {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    left: 25px;
+}
+
+.comments-post ul.comment-list li .comment-info {
+    display: block;
+    margin: 0 0 0 90px;
+}
+
+.comments-post ul.comment-list li .comment-info {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    padding: 0 25px;
+}
+
+.comments-post ul.comment-list ul.children .comment-info {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    padding: 0;
+}
+
+.comments-post ul.comment-list li .comment-info h4.author {
+    display: inline-block;
+    width: 100%;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+}
+
+.comments-post ul.comment-list li .comment-info h4.author a {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.comments-post ul.comment-list li .comment-info p {
+    display: inline-block;
+    width: 100%;
+    font-size: 13px;
+    line-height: 22px;
+    color: #606060;
+    margin: 10px 0;
+}
+
+.comments-post ul.comment-list li .comment-info h4.author a {
+    color: #000;
+}
+
+.comments-post ul.comment-list li .comment-info h4.author a:hover {
+    color: #c16fb6;
+}
+
+/** profile **/
+.profile {
+    margin-bottom: 35px;
+}
+
+.profile .profile-bottom {
+    position: relative;
+    border-bottom: 1px solid #ececec;
+}
+
+.profile .profile-post-count, .profile .profile-followers, .profile .profile-following {
+    display: inline-block;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.profile .profile-followers {
+    position: relative;
+    display: inline-block;
+    border-left: 1px solid #ececec;
+    border-right: 1px solid #ececec;
+    padding: 0px 15px 10px;
+    margin: 0 10px;
+}
+
+.profile .profile-date {
+    position: relative;
+    font-family: 'Ubuntu', sans-serif;
+    display: inline-block;
+    font-size: 13px;
+}
+
+.profile .profile-description p {
+    padding: 25px 0;
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.profile .author-name {
+    display: inline-block;
+    font-weight: normal;
+    margin: 10px 0;
+    font-size: 21px;
+    line-height: 48px;
+}
+
+.profile .author-image {
+    display: inline-block;
+    margin: -5px 10px 0 0;
+    width: 100px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    height: 100px;
+}
+
+.profile .author-name {
+    margin-right: 20px;
+}
+
+.profile .profile-title a.btn {
+    margin-left: 10px;
+}
+
+.profile-post {
+    margin-bottom: 25px;
+}
+
+/** profile **/
+
+.header-main-nav .main-nav-wrapper .main-menu ul li, .nav li > form > button.logout {
+    display: inline-block;
+    color: #000;
+}
+.nav li:hover {
+    background-color: #eee;
+}
+.nav li > form > button.logout {
+    position: relative;
+    display: inline-block;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 1px;
+    padding: 21px 22px;
+    cursor: pointer;
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -80px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+    height: 80px; /* .push must be the same height as .footer */
+}

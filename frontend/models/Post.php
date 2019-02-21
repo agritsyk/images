@@ -112,6 +112,35 @@ class Post extends ActiveRecord
         return $redis->scard("post:{$this->getId()}:likes");
     }
 
+    public function countComments()
+    {
+        $redis = Yii::$app->redis;
+        return $redis->get("post:{$this->getId()}:comments");
+    }
+
+    public function addNewComment()
+    {
+        $redis = Yii::$app->redis;
+        $key = "post:{$this->getId()}:comments";
+        if (!$redis->exists($key)) {
+            $redis->set($key, 1);
+        } else {
+            $redis->incr($key);
+        }
+    }
+
+    public function deleteComment()
+    {
+        $redis = Yii::$app->redis;
+        $key = "post:{$this->getId()}:comments";
+
+        if ($redis->exists($key)) {
+            $redis->decr($key);
+            return true;
+        }
+        return false;
+    }
+
 
     /**
      * @return int
@@ -153,4 +182,5 @@ class Post extends ActiveRecord
 
         throw new NotFoundHttpException();
     }
+
 }

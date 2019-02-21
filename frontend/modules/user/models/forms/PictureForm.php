@@ -11,16 +11,21 @@ namespace frontend\modules\user\models\forms;
 use Yii;
 use yii\base\Model;
 use Intervention\Image\ImageManager;
+use frontend\models\events\UploadProfilePicture;
+use frontend\models\User;
 
 class PictureForm extends Model
 {
+    const EVENT_AFTER_SAVE = 'picture_saved';
+
     public $picture;
+
 
     public function rules()
     {
         return [
             [['picture'], 'file',
-                'extensions' => ['jpg'],
+                'extensions' => ['jpg', 'png'],
                 'checkExtensionByMimeType' => true,
                 'maxSize' => $this->getMaxFileSize(),
             ],
@@ -30,6 +35,7 @@ class PictureForm extends Model
     public function __construct()
     {
         $this->on(self::EVENT_AFTER_VALIDATE, [$this, 'resizePicture']);
+        $this->on(self::EVENT_AFTER_SAVE, [Yii::$app->feedService, 'updateFeedProfilePicture']);
     }
 
     public function resizePicture()
@@ -48,7 +54,7 @@ class PictureForm extends Model
 
         $image = $manager->make($this->picture->tempName);
 
-        // 3-й аргумент - органичения - специальные настройки при изменении размера
+        // 3-й аргумент (анонимная функция - органичения - специальные настройки при изменении размера
         $image->resize($width, $height, function ($constraint) {
 
             // Пропорции изображений оставлять такими же (например, для избежания широких или вытянутых лиц)

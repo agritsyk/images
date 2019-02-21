@@ -8,6 +8,7 @@
 
 namespace frontend\modules\user\controllers;
 
+use frontend\models\Post;
 use Yii;
 use Faker\Factory;
 use frontend\models\User;
@@ -16,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use frontend\modules\user\models\forms\PictureForm;
 use yii\web\Response;
 use yii\web\UploadedFile;
+use frontend\models\events\UploadProfilePicture;
 
 class ProfileController extends Controller
 {
@@ -47,15 +49,19 @@ class ProfileController extends Controller
      */
     public function actionView($nickname)
     {
+        $user = $this->findUser($nickname);
 
         $currentUser = Yii::$app->user->identity;
 
         $modelPicture = new PictureForm();
 
+        $userPostList = User::getPostList($user->getid());
+
         return $this->render('view', [
-            'user' => $this->findUser($nickname),
+            'user' => $user,
             'currentUser' => $currentUser,
             'modelPicture' => $modelPicture,
+            'userPostList' => $userPostList,
         ]);
     }
 
@@ -135,15 +141,18 @@ class ProfileController extends Controller
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
 
+        $user = Yii::$app->user->identity;
         $model = new PictureForm();
         $model->picture = UploadedFile::getInstance($model, 'picture');
 
         if ($model->validate()) {
 
-            $user = Yii::$app->user->identity;
             $user->picture = Yii::$app->storage->saveUploadedFile($model->picture);
 
             if ($user->save(false, ['picture'])) {
+                $event = new UploadProfilePicture();
+                $event->user = $user;
+                $model->trigger(PictureForm::EVENT_AFTER_SAVE, $event);
                 return [
                     'success' => true,
                     'pictureUri' => Yii::$app->storage->getFile($user->picture),

@@ -48,6 +48,7 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '/' => 'site/index',
                 'profile/<nickname:\w+>' => 'user/profile/view',
                 'post/<id:\d+>' => 'post/default/view',
                // 'post/<postId:\d+>/update-comment/<id:\d+>' => 'post/default/update-comment',
@@ -56,6 +57,9 @@ return [
         ],
         'storage' => [
             'class' => 'frontend\components\Storage',
+        ],
+        'feedService' => [
+            'class' => 'frontend\components\FeedService',
         ],
     ],
     'params' => $params,

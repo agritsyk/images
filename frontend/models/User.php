@@ -201,6 +201,13 @@ class User extends ActiveRecord implements IdentityInterface
         return ($this->nickname) ? $this->nickname : $this->getId();
     }
 
+    public function likesPost(int $post_id)
+    {
+        /* @var $redis \yii\redis\Connection */
+        $redis = Yii::$app->redis;
+        $redis->sismember("user:{$this->getId()}:likes", $post_id);
+    }
+
     /**
      * @param User $user
      */
@@ -300,6 +307,9 @@ class User extends ActiveRecord implements IdentityInterface
         return $redis->sismember($key, $this->getId());
     }
 
+    /**
+     * @return string
+     */
     public function getPicture()
     {
         if ($this->picture) {
@@ -309,6 +319,9 @@ class User extends ActiveRecord implements IdentityInterface
         return self::DEFAULT_IMAGE;
     }
 
+    /**
+     * @return bool
+     */
     public function deletePicture()
     {
         if ($this->picture && Yii::$app->storage->deleteFile($this->picture)) {
@@ -318,4 +331,21 @@ class User extends ActiveRecord implements IdentityInterface
 
         return false;
     }
+
+    /**
+     * @param int $limit
+     * @return array|ActiveRecord[]
+     */
+    public function getFeed(int $limit)
+    {
+        $order = ['post_created_at' => SORT_DESC];
+        return $this->hasMany(Feed::class, ['user_id' => 'id'])->orderBy($order)->limit($limit)->all();
+    }
+
+    public static function getPostList($userId)
+    {
+        return Post::find()->where(['user_id' => $userId])->all();
+    }
+
+
 }

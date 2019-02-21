@@ -47,7 +47,7 @@ use yii\web\JqueryAsset;
         </div>
         <div class="col-md-12">
 
-            <?php if ($count = $post->getCommentsCount()): ?>
+            <?php if ($count = $post->countComments()): ?>
                 <h1><?php echo 'There is ' . $count . ' comment(s)'; ?></h1>
             <?php endif; ?>
             <?php if (isset($currentUser)): ?>
