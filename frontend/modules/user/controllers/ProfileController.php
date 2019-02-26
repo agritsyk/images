@@ -139,6 +139,10 @@ class ProfileController extends Controller
 
     public function actionUploadPicture()
     {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['/user/default/login']);
+        }
+
         Yii::$app->response->format = Response::FORMAT_JSON;
 
         $user = Yii::$app->user->identity;
@@ -152,7 +156,7 @@ class ProfileController extends Controller
             if ($user->save(false, ['picture'])) {
                 $event = new UploadProfilePicture();
                 $event->user = $user;
-                $model->trigger(PictureForm::EVENT_AFTER_SAVE, $event);
+                $model->trigger(PictureForm::EVENT_AFTER_PICTURE_UPDATE, $event);
                 return [
                     'success' => true,
                     'pictureUri' => Yii::$app->storage->getFile($user->picture),
@@ -173,6 +177,10 @@ class ProfileController extends Controller
         $currentUser = Yii::$app->user->identity;
         if ($currentUser->deletePicture()) {
             Yii::$app->session->setFlash('success', 'Picture deleted');
+            $model = new PictureForm();
+            $event = new UploadProfilePicture();
+            $event->user = $currentUser;
+            $model->trigger(PictureForm::EVENT_AFTER_PICTURE_UPDATE, $event);
         } else {
             Yii::$app->session->setFlash('danger', 'Error occured');
         }

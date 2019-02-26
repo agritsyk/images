@@ -11,12 +11,10 @@ namespace frontend\modules\user\models\forms;
 use Yii;
 use yii\base\Model;
 use Intervention\Image\ImageManager;
-use frontend\models\events\UploadProfilePicture;
-use frontend\models\User;
 
 class PictureForm extends Model
 {
-    const EVENT_AFTER_SAVE = 'picture_saved';
+    const EVENT_AFTER_PICTURE_UPDATE = 'picture_updated';
 
     public $picture;
 
@@ -35,7 +33,7 @@ class PictureForm extends Model
     public function __construct()
     {
         $this->on(self::EVENT_AFTER_VALIDATE, [$this, 'resizePicture']);
-        $this->on(self::EVENT_AFTER_SAVE, [Yii::$app->feedService, 'updateFeedProfilePicture']);
+        $this->on(self::EVENT_AFTER_PICTURE_UPDATE, [Yii::$app->feedService, 'updateFeedProfilePicture']);
     }
 
     public function resizePicture()

@@ -205,7 +205,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         /* @var $redis \yii\redis\Connection */
         $redis = Yii::$app->redis;
-        $redis->sismember("user:{$this->getId()}:likes", $post_id);
+        return (bool) $redis->sismember("user:{$this->getId()}:likes", $post_id);
     }
 
     /**
@@ -344,7 +344,8 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function getPostList($userId)
     {
-        return Post::find()->where(['user_id' => $userId])->all();
+        $order = ['created_at' => SORT_DESC];
+        return Post::find()->where(['user_id' => $userId])->orderBy($order)->all();
     }
 
 

@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\web\JqueryAsset;
 
-$this->title = 'My Yii Application';
+$this->title = 'Newsfeed';
 ?>
     <div class="container full">
         <div class="page-posts no-padding">
@@ -51,8 +51,7 @@ $this->title = 'My Yii Application';
                                                 <a href="#"
                                                    class="btn btn-default button-unlike <?php echo ($currentUser->likesPost($feedItem->post_id)) ? "" : "display-none"; ?>"
                                                    data-id="<?php echo $feedItem->post_id; ?>">
-                                                    Unlike&nbsp;&nbsp;<span
-                                                            class="glyphicon glyphicon-thumbs-down"></span>
+                                                    Unlike&nbsp;&nbsp;<span class="glyphicon glyphicon-thumbs-down"></span>
                                                 </a>
                                                 <a href="#"
                                                    class="btn btn-default button-like <?php echo ($currentUser->likesPost($feedItem->post_id)) ? "display-none" : ""; ?>"
