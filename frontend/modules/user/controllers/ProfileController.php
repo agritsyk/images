@@ -55,13 +55,10 @@ class ProfileController extends Controller
 
         $modelPicture = new PictureForm();
 
-        $userPostList = User::getPostList($user->getid());
-
         return $this->render('view', [
             'user' => $user,
             'currentUser' => $currentUser,
             'modelPicture' => $modelPicture,
-            'userPostList' => $userPostList,
         ]);
     }
 

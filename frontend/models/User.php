@@ -342,10 +342,15 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Feed::class, ['user_id' => 'id'])->orderBy($order)->limit($limit)->all();
     }
 
-    public static function getPostList($userId)
+    public function getPostList()
     {
         $order = ['created_at' => SORT_DESC];
-        return Post::find()->where(['user_id' => $userId])->orderBy($order)->all();
+        return $this->hasMany(Post::class, ['user_id' => 'id'])->orderBy($order)->all();
+    }
+
+    public function getPostCount()
+    {
+        return $this->hasMany(Post::class, ['user_id' => 'id'])->count();
     }
 
 

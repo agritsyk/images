@@ -9,15 +9,39 @@ use yii\helpers\Html;
 ?>
 
 <?php $form = ActiveForm::begin(); ?>
+
 <?php if (isset($commentText)): ?>
-    <?php echo $form->field($commentForm, 'text')->textInput(array('placeholder' => $commentText)); ?>
-    <?php echo Html::submitButton('Update comment', [
-        'class' => 'btn btn-info',
-    ]); ?>
+    <p class="comment-form-comment">
+        <?php echo $form->field($commentForm, 'text')
+            ->textarea(array(
+                'value' => $commentText,
+                'class' => 'form-control',
+                'rows' => 6
+            ))
+            ->label(false);
+        ?>
+    </p>
+    <p class="form-submit">
+        <?php echo Html::submitButton('Send', [
+            'class' => 'btn btn-secondary',
+        ]); ?>
+    </p>
 <?php else: ?>
-    <?php echo $form->field($commentForm, 'text')->textInput(array('placeholder' => 'Enter your comment')); ?>
-    <?php echo Html::submitButton('Comment', [
-        'class' => 'btn btn-info',
-    ]); ?>
+    <p class="comment-form-comment">
+        <?php echo $form->field($commentForm, 'text')
+            ->textarea(array(
+                'placeholder' => 'Enter your comment',
+                'class' => 'form-control',
+                'rows' => 6
+            ))
+            ->label(false);
+        ?>
+    </p>
+    <p class="form-submit">
+        <?php echo Html::submitButton('Send', [
+            'class' => 'btn btn-secondary',
+        ]); ?>
+    </p>
+
 <?php endif; ?>
 <?php ActiveForm::end(); ?>

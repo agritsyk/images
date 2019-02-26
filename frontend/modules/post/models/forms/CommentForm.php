@@ -30,6 +30,13 @@ class CommentForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'text' => 'Comment',
+        ];
+    }
+
     /**
      * CommentForm constructor.
      * @param User $user
